@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "natgeo-database"
+  },
+  "targets": {
+    "natgeo-database": {
+      "hosting": {
+        "project_sanctuaryv2": [
+          "projectsanctuaryv2"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
