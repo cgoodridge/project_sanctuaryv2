@@ -1,17 +1,37 @@
 {
-  "hosting": {
-    "target": "project_sanctuaryv2",
-    "public": "build/web",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
-  }
+    "hosting": {
+        "target": "project_sanctuaryv2",
+        "public": "build/web",
+        "ignore": [
+            "firebase.json",
+            "**/.*",
+            "**/node_modules/**"
+        ],
+        "rewrites": [
+            {
+                "source": "**",
+                "destination": "/index.html"
+            }
+        ]
+    },
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "natgeo-database",
+                    "appId": "1:553317843027:android:d4680ae577dcfc47e446a6",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "natgeo-database",
+                    "configurations": {
+                        "android": "1:553317843027:android:d4680ae577dcfc47e446a6",
+                        "web": "1:553317843027:web:89d438c60e5b2184e446a6"
+                    }
+                }
+            }
+        }
+    }
 }
