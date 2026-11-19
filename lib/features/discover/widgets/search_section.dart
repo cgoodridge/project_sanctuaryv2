@@ -11,20 +11,34 @@ class _SearchSectionState extends State<SearchSection> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextField(
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: Colors.grey[200],
-              hintText: 'Search...',
-              prefixIcon: Icon(Icons.search),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
-                borderSide: BorderSide.none,
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(28),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.15),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(28),
+              child: TextField(
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Search...',
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(28),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
               ),
             ),
           ),
@@ -36,8 +50,9 @@ class _SearchSectionState extends State<SearchSection> {
                 label: Text('All species'),
                 selected: true,
                 onSelected: (_) {},
-                selectedColor: Colors.blue,
+                selectedColor: const Color.fromARGB(255, 17, 17, 17),
                 labelStyle: TextStyle(color: Colors.white),
+                shape: const StadiumBorder(),
               ),
               FilterChip(
                 label: Text('Birds'),
@@ -45,6 +60,7 @@ class _SearchSectionState extends State<SearchSection> {
                 onSelected: (_) {},
                 backgroundColor: Colors.white,
                 labelStyle: TextStyle(color: Colors.black),
+                shape: const StadiumBorder(),
               ),
               FilterChip(
                 label: Text('Mammals'),
@@ -52,6 +68,7 @@ class _SearchSectionState extends State<SearchSection> {
                 onSelected: (_) {},
                 backgroundColor: Colors.white,
                 labelStyle: TextStyle(color: Colors.black),
+                shape: const StadiumBorder(),
               ),
               FilterChip(
                 label: Text('Reptiles'),
@@ -59,6 +76,7 @@ class _SearchSectionState extends State<SearchSection> {
                 onSelected: (_) {},
                 backgroundColor: Colors.white,
                 labelStyle: TextStyle(color: Colors.black),
+                shape: const StadiumBorder(),
               ),
               FilterChip(
                 label: Text('Arachnids'),
@@ -66,6 +84,7 @@ class _SearchSectionState extends State<SearchSection> {
                 onSelected: (_) {},
                 backgroundColor: Colors.white,
                 labelStyle: TextStyle(color: Colors.black),
+                shape: const StadiumBorder(),
               ),
             ],
           ),
