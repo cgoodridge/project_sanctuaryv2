@@ -38,11 +38,16 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Project Sanctuary')),
+      appBar: AppBar(
+        title: const Text('Project Sanctuary'),
+        backgroundColor: Colors.white,
+        elevation: 4.0,
+        shadowColor: Colors.grey.withValues(alpha: 0.5),
+      ),
       // Displays the currently selected screen
       body: _pages[_selectedIndex],
       bottomNavigationBar: SizedBox(
-        height: 120,
+        height: 70,
         child: Container(
           decoration: const BoxDecoration(
             border: Border(
@@ -54,6 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
+            selectedItemColor: Colors.orange,
             currentIndex: _selectedIndex,
             onTap: _onItemTapped,
             items: const [
