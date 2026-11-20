@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project_sanctuaryv2/features/discover/data/models/animal.dart';
 
 class AnimalCard extends StatelessWidget {
   final String imageUrl;
@@ -23,7 +22,7 @@ class AnimalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: SizedBox(
-        width: 250,
+        width: 200,
         height: 300,
         child: Card(
           shape: RoundedRectangleBorder(
