@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project_sanctuaryv2/features/discover/widgets/animal_card.dart';
 
 import '../data/animal_data_service.dart';
@@ -39,6 +40,10 @@ class DiscoverScreenState extends State<DiscoverScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const Color primaryTextColor = Color(0xFF1E1E1E);
+    const Color accentOrange = Color(0xFFE85D04);
+    const Color mutedTextColor = Color(0xFF5C5C5C);
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 247, 245, 240),
       body: SafeArea(
@@ -46,94 +51,162 @@ class DiscoverScreenState extends State<DiscoverScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '248 Species',
-                  style: TextStyle(fontSize: 24, color: Colors.orangeAccent),
-                ),
-                Text(
-                  'Discover the world\'s wild places.',
-                  style: TextStyle(fontSize: 24),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  'This is where you can discover new content.',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.all(48.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        FutureBuilder<List<Animal>>(
+                          future: _animalFuture,
+                          builder: (context, snapshot) {
+                            final speciesCount = snapshot.data?.length ?? 0;
+                            return Text(
+                              'FIELD GUIDE . $speciesCount Species',
+                              style: GoogleFonts.inter(
+                                color: accentOrange,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 1.5,
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Discover the world\'s wild animals!',
+                          style: GoogleFonts.playfairDisplay(
+                            fontSize: 56,
+                            fontWeight: FontWeight.w700,
+                            height: 1.08,
+                            letterSpacing: -0.5,
+                            color: primaryTextColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 32),
+
+                  Expanded(
+                    flex: 2,
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 1.5,
+                            height: 36,
+                            color: accentOrange,
+                          ),
+
+                          const SizedBox(width: 16),
+
+                          Flexible(
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 280),
+                              child: Text(
+                                'Explore incredible species, and the places they call home.',
+                                style: GoogleFonts.inter(
+                                  color: mutedTextColor,
+                                  fontSize: 13,
+                                  height: 1.5,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
 
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SearchBar(
-                  hintText: 'Search Animals...',
-                  leading: const Icon(Icons.search),
-                  controller: _searchController,
-                  elevation: WidgetStateProperty.all(2.0),
-                  padding: WidgetStateProperty.all(
-                    const EdgeInsets.symmetric(horizontal: 16.0),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SearchBar(
+                    hintText: 'Search Animals...',
+                    leading: const Icon(Icons.search),
+                    controller: _searchController,
+                    backgroundColor: WidgetStateProperty.all(Colors.white),
+                    elevation: WidgetStateProperty.all(2.0),
+                    padding: WidgetStateProperty.all(
+                      const EdgeInsets.symmetric(horizontal: 16.0),
+                    ),
+                    trailing: [
+                      if (_searchQuery.isNotEmpty)
+                        IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: () {
+                            _searchController.clear();
+                          },
+                        ),
+                    ],
                   ),
-                  trailing: [
-                    if (_searchQuery.isNotEmpty)
-                      IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          _searchController.clear();
-                        },
+                  const SizedBox(height: 16.0),
+                  Wrap(
+                    spacing: 8.0,
+                    children: [
+                      FilterChip(
+                        label: Text('All species'),
+                        selected: true,
+                        onSelected: (_) {},
+                        selectedColor: const Color.fromARGB(255, 17, 17, 17),
+                        labelStyle: TextStyle(color: Colors.white),
+                        shape: const StadiumBorder(),
                       ),
-                  ],
-                ),
-                const SizedBox(height: 16.0),
-                Wrap(
-                  spacing: 8.0,
-                  children: [
-                    FilterChip(
-                      label: Text('All species'),
-                      selected: true,
-                      onSelected: (_) {},
-                      selectedColor: const Color.fromARGB(255, 17, 17, 17),
-                      labelStyle: TextStyle(color: Colors.white),
-                      shape: const StadiumBorder(),
-                    ),
-                    FilterChip(
-                      label: Text('Birds'),
-                      selected: false,
-                      onSelected: (_) {},
-                      backgroundColor: Colors.white,
-                      labelStyle: TextStyle(color: Colors.black),
-                      shape: const StadiumBorder(),
-                    ),
-                    FilterChip(
-                      label: Text('Mammals'),
-                      selected: false,
-                      onSelected: (_) {},
-                      backgroundColor: Colors.white,
-                      labelStyle: TextStyle(color: Colors.black),
-                      shape: const StadiumBorder(),
-                    ),
-                    FilterChip(
-                      label: Text('Reptiles'),
-                      selected: false,
-                      onSelected: (_) {},
-                      backgroundColor: Colors.white,
-                      labelStyle: TextStyle(color: Colors.black),
-                      shape: const StadiumBorder(),
-                    ),
-                    FilterChip(
-                      label: Text('Arachnids'),
-                      selected: false,
-                      onSelected: (_) {},
-                      backgroundColor: Colors.white,
-                      labelStyle: TextStyle(color: Colors.black),
-                      shape: const StadiumBorder(),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16,)
-              ],
+                      FilterChip(
+                        label: Text('Birds'),
+                        selected: false,
+                        onSelected: (_) {},
+                        backgroundColor: Colors.white,
+                        labelStyle: TextStyle(color: Colors.black),
+                        shape: const StadiumBorder(),
+                      ),
+                      FilterChip(
+                        label: Text('Mammals'),
+                        selected: false,
+                        onSelected: (_) {},
+                        backgroundColor: Colors.white,
+                        labelStyle: TextStyle(color: Colors.black),
+                        shape: const StadiumBorder(),
+                      ),
+                      FilterChip(
+                        label: Text('Reptiles'),
+                        selected: false,
+                        onSelected: (_) {},
+                        backgroundColor: Colors.white,
+                        labelStyle: TextStyle(color: Colors.black),
+                        shape: const StadiumBorder(),
+                      ),
+                      FilterChip(
+                        label: Text('Arachnids'),
+                        selected: false,
+                        onSelected: (_) {},
+                        backgroundColor: Colors.white,
+                        labelStyle: TextStyle(color: Colors.black),
+                        shape: const StadiumBorder(),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                ],
+              ),
             ),
             Expanded(
               child: FutureBuilder<List<Animal>>(
@@ -149,7 +222,6 @@ class DiscoverScreenState extends State<DiscoverScreen> {
 
                   final animals = snapshot.data!;
 
-
                   if (_searchQuery.isEmpty) {
                     _filteredAnimals = animals;
                   } else {
@@ -159,31 +231,32 @@ class DiscoverScreenState extends State<DiscoverScreen> {
                         .where(
                           (animal) =>
                               animal.commonName.toLowerCase().contains(query) ||
-                              animal.scientificName.toLowerCase().contains(query),
+                              animal.scientificName.toLowerCase().contains(
+                                query,
+                              ),
                         )
                         .toList();
                   }
 
-                  return GridView.builder(
-                    padding: const EdgeInsets.all(12),
-                    itemCount: _filteredAnimals.length,
-                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 300,
-                      mainAxisExtent: 300,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
+                  return Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 1200),
+                      child: GridView.builder(
+                        padding: const EdgeInsets.all(12),
+                        itemCount: _filteredAnimals.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 300,
+                              mainAxisExtent: 300,
+                              crossAxisSpacing: 12,
+                              mainAxisSpacing: 12,
+                            ),
+                        itemBuilder: (context, index) {
+                          final animal = _filteredAnimals[index];
+                          return AnimalCard(animal: animal);
+                        },
+                      ),
                     ),
-                    itemBuilder: (context, index) {
-                      final animal = _filteredAnimals[index];
-                      return AnimalCard(
-                        imageUrl: animal.imageUrl,
-                        classification: animal.classification,
-                        commonName: animal.commonName,
-                        scientificName: animal.scientificName,
-                        location: animal.location,
-                        iucnStatus: animal.iucnStatus,
-                      );
-                    },
                   );
                 },
               ),
