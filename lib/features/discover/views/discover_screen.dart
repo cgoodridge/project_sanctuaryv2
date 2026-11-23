@@ -17,6 +17,10 @@ class DiscoverScreenState extends State<DiscoverScreen> {
   late Future<List<Animal>> _animalFuture;
   List<Animal> _filteredAnimals = [];
 
+  static const Color primaryTextColor = Color(0xFF1E1E1E);
+  static const Color accentOrange = Color(0xFFE85D04);
+  static const Color mutedTextColor = Color(0xFF5C5C5C);
+
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
 
@@ -40,10 +44,6 @@ class DiscoverScreenState extends State<DiscoverScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const Color primaryTextColor = Color(0xFF1E1E1E);
-    const Color accentOrange = Color(0xFFE85D04);
-    const Color mutedTextColor = Color(0xFF5C5C5C);
-
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 247, 245, 240),
       body: SafeArea(
@@ -54,85 +54,54 @@ class DiscoverScreenState extends State<DiscoverScreen> {
               const SizedBox(height: 16),
               Padding(
                 padding: const EdgeInsets.all(48.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          FutureBuilder<List<Animal>>(
-                            future: _animalFuture,
-                            builder: (context, snapshot) {
-                              final speciesCount = snapshot.data?.length ?? 0;
-                              return Text(
-                                'FIELD GUIDE . $speciesCount Species',
-                                style: GoogleFonts.inter(
-                                  color: accentOrange,
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 1.5,
-                                ),
-                              );
-                            },
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            'Discover the world\'s wild animals!',
-                            style: GoogleFonts.playfairDisplay(
-                              fontSize: 56,
-                              fontWeight: FontWeight.w700,
-                              height: 1.08,
-                              letterSpacing: -0.5,
-                              color: primaryTextColor,
-                            ),
-                          ),
-                        ],
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final isWideScreen = constraints.maxWidth > 750;
+
+                    final headingFontSize = isWideScreen ? 56.0 : 38.0;
+                    final horizontalPadding = isWideScreen ? 48.0 : 20.0;
+
+                    return Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: horizontalPadding,
+                        vertical: 24,
                       ),
-                    ),
-
-                    const SizedBox(height: 32),
-
-                    Expanded(
-                      flex: 2,
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 1.5,
-                              height: 36,
-                              color: accentOrange,
-                            ),
-
-                            const SizedBox(width: 16),
-
-                            Flexible(
-                              child: ConstrainedBox(
-                                constraints: const BoxConstraints(
-                                  maxWidth: 280,
+                      child: isWideScreen
+                          ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // Heading section
+                                Expanded(
+                                  flex: 3,
+                                  child: _buildHeading(headingFontSize),
                                 ),
-                                child: Text(
-                                  'Explore incredible species, and the places they call home.',
-                                  style: GoogleFonts.inter(
-                                    color: mutedTextColor,
-                                    fontSize: 13,
-                                    height: 1.5,
-                                    fontWeight: FontWeight.w400,
+
+                                const SizedBox(width: 32),
+
+                                // Description section
+                                Expanded(
+                                  flex: 2,
+                                  child: Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: _buildDescription(),
                                   ),
                                 ),
-                              ),
+                              ],
+                            )
+                          // Mobile layout
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildHeading(headingFontSize),
+
+                                const SizedBox(height: 28),
+
+                                _buildDescription(),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ),
 
@@ -265,6 +234,71 @@ class DiscoverScreenState extends State<DiscoverScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildHeading(double fontSize) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        FutureBuilder<List<Animal>>(
+          future: _animalFuture,
+          builder: (context, snapshot) {
+            final speciesCount = snapshot.data?.length ?? 0;
+
+            return Text(
+              'FIELD GUIDE . $speciesCount Species',
+              style: GoogleFonts.inter(
+                color: accentOrange,
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 1.5,
+              ),
+            );
+          },
+        ),
+
+        const SizedBox(height: 16),
+
+        Text(
+          'Discover the world\'s wild animals!',
+          style: GoogleFonts.playfairDisplay(
+            fontSize: fontSize,
+            fontWeight: FontWeight.w700,
+            height: 1.08,
+            letterSpacing: -0.5,
+            color: primaryTextColor,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDescription() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(width: 1.5, height: 36, color: accentOrange),
+
+        const SizedBox(width: 16),
+
+        Flexible(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 280),
+            child: Text(
+              'Explore incredible species, and the places they call home.',
+              style: GoogleFonts.inter(
+                color: mutedTextColor,
+                fontSize: 13,
+                height: 1.5,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
