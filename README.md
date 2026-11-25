@@ -1,17 +1,13 @@
-# project_sanctuaryv2
+# Project Sanctuary V2
+This project aims to provide users with an intuitive and engaging way to explore detailed information about various animal species on Earth. Built with Flutter Web and soon to Android, it will ensure a consistent and seamless experience for users.
 
-A new Flutter project.
+## Features
 
-## Getting Started
+- Modern UI/UX design
+- Scalable and maintainable code structure
 
-This project is a starting point for a Flutter application.
+## Technologies Used
 
-A few resources to get you started if this is your first Flutter project:
+- **Flutter**: For building the user interface and application logic.
+- **Firebase**: For backend services like authentication, database, and cloud storage.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
